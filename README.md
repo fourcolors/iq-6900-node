@@ -1,11 +1,16 @@
-# IQ-6900
+# IQ-6900 (ALPHA)
+
+> **⚠️ ALPHA SOFTWARE**: This package is in early alpha stage (v0.0.1). APIs may change without notice. Not recommended for production use yet.
 
 A Solana-based utility for retrieving and processing on-chain data from the IQ blockchain.
 
 ## Installation
 
 ```bash
-# Using pnpm (recommended)
+# Using JSR (recommended)
+npx jsr add @sterling/iq-6900
+
+# Using pnpm
 pnpm add @sterling/iq-6900
 
 # Using npm

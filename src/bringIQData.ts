@@ -1,4 +1,11 @@
-import { elizaLogger } from "@elizaos/core";
+// Simple logger implementation
+const logger = {
+  info: (message: string, ...args: any[]) => console.log(`[INFO] ${message}`, ...args),
+  error: (message: string, ...args: any[]) => console.error(`[ERROR] ${message}`, ...args),
+  debug: (message: string, ...args: any[]) => console.debug(`[DEBUG] ${message}`, ...args),
+  warn: (message: string, ...args: any[]) => console.warn(`[WARN] ${message}`, ...args),
+};
+
 import { Connection, PublicKey } from "@solana/web3.js";
 import type {
   CodeResult,
@@ -37,7 +44,7 @@ async function fetchTransactionInfo(
     const data = await response.json();
     return data.argData || null;
   } catch (error) {
-    elizaLogger.error("Error fetching transaction info:", error);
+    logger.error("Error fetching transaction info:", error);
     return null;
   }
 }
@@ -47,13 +54,13 @@ async function fetchDBPDA(
   apiHost: string
 ): Promise<string | null> {
   if (!walletAddress) {
-    elizaLogger.error("Wallet address not provided");
+    logger.error("Wallet address not provided");
     return null;
   }
 
   try {
-    elizaLogger.info("Connecting to Solana...(IQ6900)");
-    elizaLogger.info(`Your Address: ${walletAddress}`);
+    logger.info("Connecting to Solana...(IQ6900)");
+    logger.info(`Your Address: ${walletAddress}`);
 
     const response = await fetch(`${apiHost}/getDBPDA/${walletAddress}`);
     if (!response.ok) {
@@ -63,7 +70,7 @@ async function fetchDBPDA(
     const data = await response.json();
     return data.DBPDA || null;
   } catch (error) {
-    elizaLogger.error("Error fetching PDA:", error);
+    logger.error("Error fetching PDA:", error);
     return null;
   }
 }
@@ -126,21 +133,21 @@ async function bringCode(
   try {
     while (before_tx !== GENESIS_TX) {
       if (!before_tx) {
-        elizaLogger.error("Before transaction undefined");
+        logger.error("Before transaction undefined");
         return ERROR_RESULT;
       }
 
-      elizaLogger.info(`Chunks: ${before_tx}`);
+      logger.info(`Chunks: ${before_tx}`);
       const chunk = await fetchTransactionInfo(before_tx, apiHost);
 
       if (!chunk) {
-        elizaLogger.error("No chunk found");
+        logger.error("No chunk found");
         return ERROR_RESULT;
       }
 
       const chunkData = await getTransactionData(chunk as TransactionData);
       if (!chunkData.data || !isTransactionDataResponse(chunkData.data)) {
-        elizaLogger.error("Chunk data undefined or invalid");
+        logger.error("Chunk data undefined or invalid");
         return ERROR_RESULT;
       }
 
@@ -154,7 +161,7 @@ async function bringCode(
       commit_message: txInfo.offset || "false",
     };
   } catch (error) {
-    elizaLogger.error("Error in bringCode:", error);
+    logger.error("Error in bringCode:", error);
     return ERROR_RESULT;
   }
 }
@@ -164,13 +171,13 @@ async function fetchSignaturesForAddress(
   connection: Connection
 ): Promise<string[]> {
   try {
-    elizaLogger.info("Find Your Signature...(IQ6900)");
+    logger.info("Find Your Signature...(IQ6900)");
     const signatures = await connection.getSignaturesForAddress(dbAddress, {
       limit: 20,
     });
     return signatures.map((sig) => sig.signature);
   } catch (error) {
-    elizaLogger.error("Error fetching signatures:", error);
+    logger.error("Error fetching signatures:", error);
     return [];
   }
 }
@@ -182,7 +189,7 @@ async function findRecentJsonSignature(
 ): Promise<string | null> {
   const dbAddress = await fetchDBPDA(walletAddress, apiHost);
   if (!dbAddress) {
-    elizaLogger.error("Failed to fetch DBPDA");
+    logger.error("Failed to fetch DBPDA");
     return null;
   }
 
@@ -191,7 +198,7 @@ async function findRecentJsonSignature(
     connection
   );
   if (signatures.length === 0) {
-    elizaLogger.error("No signatures found");
+    logger.error("No signatures found");
     return null;
   }
 
@@ -213,7 +220,7 @@ export async function bringAgentWithWalletAddress(
   config: IQ6900Config
 ): Promise<string | null> {
   if (!config.walletAddress) {
-    elizaLogger.error("Wallet address not provided in config");
+    logger.error("Wallet address not provided in config");
     return null;
   }
 
@@ -230,7 +237,7 @@ export async function bringAgentWithWalletAddress(
     apiHost
   );
   if (!recent) {
-    elizaLogger.error("Cannot found onchain data in this wallet.");
+    logger.error("Cannot found onchain data in this wallet.");
     return null;
   }
 

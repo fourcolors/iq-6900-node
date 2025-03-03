@@ -1,9 +1,9 @@
 {
   "name": "@sterling/iq-6900",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "exports": "./src/mod.ts",
-  "description": "A Solana-based utility for retrieving and processing on-chain data from the IQ6900",
+  "description": "A Solana-based utility for retrieving and processing on-chain data from IQ6900 (ALPHA)",
   "repository": "https://github.com/sterling/iq-6900",
-  "keywords": ["solana", "blockchain", "iq-6900", "on-chain", "data"],
+  "keywords": ["solana", "blockchain", "iq-6900", "on-chain", "data", "alpha"],
   "license": "ISC"
 }

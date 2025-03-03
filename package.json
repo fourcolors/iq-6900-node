@@ -1,7 +1,7 @@
 {
   "name": "@sterling/iq-6900",
-  "version": "1.0.0",
-  "description": "A Solana-based utility for retrieving and processing on-chain data from IQ6900",
+  "version": "0.0.1",
+  "description": "A Solana-based utility for retrieving and processing on-chain data from IQ6900 (ALPHA)",
   "type": "module",
   "main": "./dist/mod.js",
   "types": "./dist/mod.d.ts",

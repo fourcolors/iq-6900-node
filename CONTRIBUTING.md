@@ -1,6 +1,8 @@
-# Contributing to IQ-6900
+# Contributing to IQ-6900 (ALPHA)
 
 Thank you for your interest in contributing to IQ-6900! This document provides guidelines and instructions for contributing to this project.
+
+> **⚠️ ALPHA STATUS**: This package is in early alpha stage (v0.0.1). We welcome feedback and contributions to help stabilize the API and features.
 
 ## Setting Up Development Environment
 
